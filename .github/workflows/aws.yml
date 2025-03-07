@@ -59,9 +59,3 @@ jobs:
             ]' \
             --comment "Deploying latest code from GitHub" \
             --region us-east-1
-      - name: Register EC2 Instances with Target Group
-        run: |
-          TARGET_GROUP_ARN="arn:aws:elasticloadbalancing:us-east-1:559050245860:targetgroup/target-group-1/42818f83ea1dd6bb"
-          for INSTANCE_ID in $INSTANCE_IDS; do
-            aws elbv2 register-targets --target-group-arn $TARGET_GROUP_ARN --targets Id=$INSTANCE_ID
-          done
