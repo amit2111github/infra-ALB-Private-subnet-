@@ -37,7 +37,7 @@ jobs:
         run: |
           aws ssm send-command \
             --document-name "AWS-RunShellScript" \
-            --targets Key=instance-id,Values=${{ env.INSTANCE_IDS }} \
+            --instance-ids ${{ env.INSTANCE_IDS }} \
             --parameters 'commands=[
               "sudo apt update -y",  
               "if ! command -v git &> /dev/null; then sudo apt install -y git; fi",
