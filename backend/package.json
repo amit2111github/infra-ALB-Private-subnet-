@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "pm2 describe app.js || pm2 start app.js",
+    "restart": "pm2 restart app && pm2 save"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +17,8 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "pg": "^8.13.3"
+    "pg": "^8.13.3",
+    "pm2": "^5.4.3"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"

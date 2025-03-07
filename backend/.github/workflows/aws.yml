@@ -1,0 +1,56 @@
+name: Deploy Code via SSM
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Get Running EC2 Instances
+        id: get_instances
+        run: |
+          INSTANCE_IDS=$(aws ec2 describe-instances \
+            --filters "Name=tag:Name,Values=back-end" "Name=instance-state-name,Values=running" \
+            --query "Reservations[*].Instances[*].InstanceId" \
+            --output text)
+          
+          if [ -z "$INSTANCE_IDS" ]; then
+            echo "No running instances found!"
+            exit 1
+          fi
+          echo "INSTANCE_IDS=$INSTANCE_IDS"
+          echo "INSTANCE_IDS=$INSTANCE_IDS" >> $GITHUB_ENV
+
+      - name: Deploy Code via SSM Run Command
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets Key=instance-id,Values=${{ env.INSTANCE_IDS }} \
+            --parameters 'commands=[
+              "sudo apt update -y",  
+              "if ! command -v git &> /dev/null; then sudo apt install -y git; fi",
+              "if ! command -v node &> /dev/null; then curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt install -y nodejs; fi",
+              "if ! command -v pm2 &> /dev/null; then sudo npm install -g pm2; fi",
+              "mkdir -p /home/ubuntu/app",
+              "cd /home/ubuntu/app",
+              "if [ ! -d .git ]; then git clone https://github.com/amit2111github/infra-ALB-Private-subnet-.git .; fi",
+              "git pull origin main",
+              "cd backend"
+              "npm install",
+              "npm run start",
+              "npm run restart"
+            ]' \
+            --comment "Deploying latest code from GitHub" \
+            --region us-east-1
