@@ -50,9 +50,14 @@ jobs:
             "git pull origin main >> /home/ubuntu/deploy.log 2>&1",
             "cd backend",
             "npm install >> /home/ubuntu/deploy.log 2>&1",
-            "pm2 startup >> /home/ubuntu/deploy.log 2>&1",
-            "pm2 save >> /home/ubuntu/deploy.log 2>&1",
-            "npm run start >> /home/ubuntu/deploy.log 2>&1"
+            "sudo su - ubuntu -c 'pm2 start /home/ubuntu/app/backend/app.js --name my-app'",
+            # Save the PM2 process list
+            "sudo su - ubuntu -c 'pm2 save --force'",
+            "sudo su - ubuntu -c 'pm2 restart my-app || pm2 start /home/ubuntu/app/backend/app.js --name my-app'",
+            # Reload system services
+            "sudo systemctl daemon-reload",
+            "sudo systemctl enable pm2-ubuntu",
+            "sudo systemctl restart pm2-ubuntu"
           ]' \
           --comment "Deploying latest code from GitHub" \
           --region us-east-1
