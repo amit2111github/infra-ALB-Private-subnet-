@@ -47,14 +47,9 @@ jobs:
               "cd /home/ubuntu/app",
               "if [ ! -d .git ]; then git clone https://github.com/amit2111github/infra-ALB-Private-subnet-.git .; fi",
               "git pull origin main",
-              "echo runnung_cd_backend",
               "cd backend",
               "npm install",
-              "echo install_done",
               "npm run start",
-              "echo start_done",
-              "npm run restart",
-              "echo restart_restart"
             ]' \
             --comment "Deploying latest code from GitHub" \
             --region us-east-1
