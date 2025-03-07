@@ -34,25 +34,25 @@ jobs:
           echo "INSTANCE_IDS=$INSTANCE_IDS" >> $GITHUB_ENV
 
       - name: Deploy Code via SSM Run Command
-    run: |
-      aws ssm send-command \
-      --document-name "AWS-RunShellScript" \
-      --instance-ids ${{ env.INSTANCE_IDS }} \
-      --parameters commands='[
-        "echo Deploy Started >> /home/ubuntu/deploy.log",
-        "sudo apt update -y >> /home/ubuntu/deploy.log 2>&1",
-        "if ! command -v git &> /dev/null; then sudo apt install -y git >> /home/ubuntu/deploy.log 2>&1; fi",
-        "if ! command -v node &> /dev/null; then curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt install -y nodejs >> /home/ubuntu/deploy.log 2>&1; fi",
-        "if ! command -v pm2 &> /dev/null; then sudo npm install -g pm2 >> /home/ubuntu/deploy.log 2>&1; fi",
-        "mkdir -p /home/ubuntu/app",
-        "cd /home/ubuntu/app",
-        "if [ ! -d .git ]; then git clone https://github.com/amit2111github/infra-ALB-Private-subnet-.git . >> /home/ubuntu/deploy.log 2>&1; fi",
-        "git pull origin main >> /home/ubuntu/deploy.log 2>&1",
-        "cd backend",
-        "npm install >> /home/ubuntu/deploy.log 2>&1",
-        "pm2 startup >> /home/ubuntu/deploy.log 2>&1",
-        "pm2 save >> /home/ubuntu/deploy.log 2>&1",
-        "npm run start >> /home/ubuntu/deploy.log 2>&1"
-      ]' \
-      --comment "Deploying latest code from GitHub" \
-      --region us-east-1
+        run: |
+          aws ssm send-command \
+          --document-name "AWS-RunShellScript" \
+          --instance-ids ${{ env.INSTANCE_IDS }} \
+          --parameters commands='[
+            "echo Deploy Started >> /home/ubuntu/deploy.log",
+            "sudo apt update -y >> /home/ubuntu/deploy.log 2>&1",
+            "if ! command -v git &> /dev/null; then sudo apt install -y git >> /home/ubuntu/deploy.log 2>&1; fi",
+            "if ! command -v node &> /dev/null; then curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt install -y nodejs >> /home/ubuntu/deploy.log 2>&1; fi",
+            "if ! command -v pm2 &> /dev/null; then sudo npm install -g pm2 >> /home/ubuntu/deploy.log 2>&1; fi",
+            "mkdir -p /home/ubuntu/app",
+            "cd /home/ubuntu/app",
+            "if [ ! -d .git ]; then git clone https://github.com/amit2111github/infra-ALB-Private-subnet-.git . >> /home/ubuntu/deploy.log 2>&1; fi",
+            "git pull origin main >> /home/ubuntu/deploy.log 2>&1",
+            "cd backend",
+            "npm install >> /home/ubuntu/deploy.log 2>&1",
+            "pm2 startup >> /home/ubuntu/deploy.log 2>&1",
+            "pm2 save >> /home/ubuntu/deploy.log 2>&1",
+            "npm run start >> /home/ubuntu/deploy.log 2>&1"
+          ]' \
+          --comment "Deploying latest code from GitHub" \
+          --region us-east-1
