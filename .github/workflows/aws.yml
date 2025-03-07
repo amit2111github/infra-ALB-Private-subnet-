@@ -49,6 +49,8 @@ jobs:
               "git pull origin main",
               "cd backend",
               "npm install",
+              "pm2 startup",
+              "pm2 save",
               "npm run start",
             ]' \
             --comment "Deploying latest code from GitHub" \
