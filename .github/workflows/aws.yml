@@ -50,7 +50,7 @@ jobs:
               "git pull origin main >> /home/ubuntu/deploy.log 2>&1",
               "cd backend",
               "npm install",
-              "echo \"${{ secrets.ENV_VARIABLE }}\"",
+              "echo \"${{ secrets.ENV_VARIABLE }}\" >> /home/ubuntu/deploy.log 2>&1",
               "echo \"${{ secrets.ENV_VARIABLE }}\" > .env",
               "sudo su - ubuntu -c \"pm2 restart my-app || pm2 start /home/ubuntu/app/backend/app.js --name my-app\"",
               "sudo su - ubuntu -c \"pm2 save --force\"",
