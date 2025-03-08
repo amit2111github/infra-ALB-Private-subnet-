@@ -5,10 +5,11 @@ import dotenv from "dotenv";
 import { initalizeDatabase } from "./database/postgres/client.js";
 import cors from "cors";
 import bodyParser from "body-parser";
+import { migration } from "./migration.js";
 
 dotenv.config();
-
-initalizeDatabase()
+await initalizeDatabase()
+await migration();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }))

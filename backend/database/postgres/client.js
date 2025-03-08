@@ -17,7 +17,7 @@ export const initalizeDatabase = async () => {
     });
   } catch (err) {
     console.log("Data base connection failed");
-    process.exit(0);
+    process.exit(1);
   }
 };
 
