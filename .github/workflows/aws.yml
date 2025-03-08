@@ -39,18 +39,18 @@ jobs:
             --document-name "AWS-RunShellScript" \
             --instance-ids ${{ env.INSTANCE_IDS }} \
             --parameters commands='[
-              "echo Deploy Started",
-              "sudo apt update -y",
-              "if ! command -v git &> /dev/null; then sudo apt install -y git",
-              "if ! command -v node &> /dev/null; then curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt install -y nodejs",
-              "if ! command -v pm2 &> /dev/null; then sudo npm install -g pm2 && sudo su - ubuntu -c \"export PATH=\\$PATH:/usr/local/bin\"",
+              "echo Deploy Started >> /home/ubuntu/deploy.log",
+              "sudo apt update -y >> /home/ubuntu/deploy.log 2>&1",
+              "if ! command -v git &> /dev/null; then sudo apt install -y git; fi",
+              "if ! command -v node &> /dev/null; then curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash - && sudo apt install -y nodejs; fi",
+              "if ! command -v pm2 &> /dev/null; then sudo npm install -g pm2 && sudo su - ubuntu -c \"export PATH=\\$PATH:/usr/local/bin\"; fi",
               "mkdir -p /home/ubuntu/app",
               "cd /home/ubuntu/app",
-              "sudo chown -R ubuntu:ubuntu /home/ubuntu/app/.git >> /home/ubuntu/deploy.log 2>&1",
-              "sudo chmod -R 775 /home/ubuntu/app/.git >> /home/ubuntu/deploy.log 2>&1",
-              "sudo su >> /home/ubuntu/deploy.log 2>&1",
-              "git pull origin main >> /home/ubuntu/deploy.log 2>&1",
-              "cd backend >> /home/ubuntu/deploy.log 2>&1",
+              "sudo chown -R ubuntu:ubuntu /home/ubuntu/app",
+              "sudo chmod -R 775 /home/ubuntu/app",
+              "git status || git clone https://<GITHUB_USERNAME>:${{ secrets.GITHUB_TOKEN }}@github.com/<ORG>/<REPO>.git .",
+              "git pull origin main",
+              "cd backend",
               "npm install",
               "echo \" printing env variable \" >>  /home/ubuntu/deploy.log 2>&1",
               "echo \"${{ secrets.ENV_VARIABLE }}\" >> /home/ubuntu/deploy.log 2>&1",
@@ -63,3 +63,4 @@ jobs:
             ]' \
             --comment "Deploying latest code from GitHub" \
             --region us-east-1
+            
