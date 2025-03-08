@@ -53,8 +53,8 @@ jobs:
               "echo \" printing env variable \" >>  /home/ubuntu/deploy.log 2>&1",
               "echo \"${{ secrets.ENV_VARIABLE }}\" >> /home/ubuntu/deploy.log 2>&1",
               "echo \"${{ secrets.ENV_VARIABLE }}\" > .env",
-              "pkill -f 'node /home/ubuntu/app/backend/app.js' || true",
-              "echo \"Starting server manually\" >> /home/ubuntu/deploy.log 2>&1",
+              "pkill -f \"node /home/ubuntu/app/backend/app.js\" || true",
+              "echo Starting-server-manually" >> /home/ubuntu/deploy.log 2>&1",
               "nohup node /home/ubuntu/app/backend/app.js > /home/ubuntu/app/backend/output.log 2>&1 &",
               "echo \"Server started successfully\" >> /home/ubuntu/deploy.log 2>&1"
             ]' \
