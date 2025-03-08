@@ -54,11 +54,7 @@ jobs:
               "echo \" printing env variable \" >>  /home/ubuntu/deploy.log 2>&1",
               "echo \"${{ secrets.ENV_VARIABLE }}\" >> /home/ubuntu/deploy.log 2>&1",
               "echo \"${{ secrets.ENV_VARIABLE }}\" > .env",
-              "pm2 restart my-app",
-              "pm2 save",
-              "pm2 startup systemd",
-              "sudo systemctl enable pm2-ubuntu",
-              "sudo systemctl restart pm2-ubuntu"
+              "sudo -u ubuntu pm2 restart my-app"
             ]' \
             --comment "Deploying latest code from GitHub" \
             --region us-east-1
