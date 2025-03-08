@@ -15,6 +15,7 @@ export const initalizeDatabase = async () => {
       password: process.env.PASSWORD, // Don't forget password
       port: 5432, // Default to 5432 if no port is set
     })
+    console.log(process.env.HOST);
     pool = new Pool({
       host: process.env.HOST, // Ensure the correct env variable
       user: process.env.DATABASE_USER, // Correct the 'username' to 'user'
