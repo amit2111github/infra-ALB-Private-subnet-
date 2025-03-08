@@ -24,7 +24,7 @@ jobs:
           INSTANCE_IDS=$(aws ec2 describe-instances \
             --filters "Name=tag:Name,Values=back-end" "Name=instance-state-name,Values=running" \
             --query "Reservations[*].Instances[*].InstanceId" \
-            --output text)
+            --output text | tr '\n' ' ')
           
           if [ -z "$INSTANCE_IDS" ]; then
             echo "No running instances found!"
