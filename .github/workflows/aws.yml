@@ -47,8 +47,6 @@ jobs:
               "mkdir -p /home/ubuntu/app",
               "cd /home/ubuntu/app",
               "git status || git clone https://github.com/amit2111github/infra-ALB-Private-subnet-.git .",
-              "echo rancloe >> /home/ubuntu/deploy.log 2>&1",
-              "git log >> /home/ubuntu/deploy.log 2>&1",
               "sudo -u ubuntu git stash",
               "sudo -u ubuntu git pull origin main >> /home/ubuntu/deploy.log 2>&1",
               "cd backend",
