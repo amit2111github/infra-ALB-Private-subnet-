@@ -48,7 +48,8 @@ jobs:
               "cd /home/ubuntu/app",
               "sudo chown -R ubuntu:ubuntu /home/ubuntu/app",
               "sudo chmod -R 775 /home/ubuntu/app",
-              "git status || git clone https://<GITHUB_USERNAME>:${{ secrets.GITHUB_TOKEN }}@github.com/<ORG>/<REPO>.git .",
+              "git status || git clone https://github.com/amit2111github/infra-ALB-Private-subnet-.git .",
+              "echo rancloe",
               "git pull origin main",
               "cd backend",
               "npm install",
@@ -63,4 +64,4 @@ jobs:
             ]' \
             --comment "Deploying latest code from GitHub" \
             --region us-east-1
-            
+          
