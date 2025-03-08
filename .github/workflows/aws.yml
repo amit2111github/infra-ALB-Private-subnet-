@@ -46,7 +46,7 @@ jobs:
               "if ! command -v pm2 &> /dev/null; then sudo npm install -g pm2 && sudo su - ubuntu -c \"export PATH=\\$PATH:/usr/local/bin\"",
               "mkdir -p /home/ubuntu/app",
               "cd /home/ubuntu/app",
-              "git pull origin main",
+              "sudo -u ubuntu bash -c \'cd /home/ubuntu/app && git pull origin main\' >> /home/ubuntu/deploy.log 2>&1",
               "cd backend",
               "npm install",
               "echo \" printing env variable \" >>  /home/ubuntu/deploy.log 2>&1",
