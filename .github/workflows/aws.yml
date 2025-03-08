@@ -53,7 +53,7 @@ jobs:
               "echo \"${{ secrets.ENV_VARIABLE }}\" >> /home/ubuntu/deploy.log 2>&1",
               "echo \"${{ secrets.ENV_VARIABLE }}\" > .env",
               "pm2 restart my-app",
-              "pm2 save"
+              "pm2 save",
               "pm2 startup systemd",
               "sudo systemctl enable pm2-ubuntu"
               "sudo systemctl restart pm2-ubuntu"
