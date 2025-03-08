@@ -52,7 +52,7 @@ jobs:
               "git status || git clone https://github.com/amit2111github/infra-ALB-Private-subnet-.git .",
               "echo rancloe >> /home/ubuntu/deploy.log 2>&1",
               "git log >> /home/ubuntu/deploy.log 2>&1",
-              "git pull origin main",
+              "sudo -u ubuntu git pull origin main >> /home/ubuntu/deploy.log 2>&1",
               "cd backend",
               "npm install",
               "echo \" printing env variable \" >>  /home/ubuntu/deploy.log 2>&1",
